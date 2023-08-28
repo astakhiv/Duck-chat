@@ -2,21 +2,35 @@
 
 {% load static %}
 
+{% block head %}
+<script src="{% static 'network/chat.js' %}"></script>
+{% endblock head %}
+
 {% block body %}
     <div class="col-12 h-100">
-        <div class="col-12 heading">
-            <h2>{{ chat_with }}</h2>
+        <div id="heading" class="col-12 heading">
+            <h2 id="to">{{ chat_with }}</h2>
         </div>
-        <div class="col-12">
-
+        <div id="messages_block" class="col-12 messages">
+            
+                {% for message in messages %}
+                    <div>
+                        <h4>{{ message.sender }}</h4>
+                        <p>{{ message.message }}</p>
+                    </div>
+                {% empty %}
+                    <div id="no_messages" class="center">
+                        <h4>Start your conversation now, quack!</h4>
+                    </div>
+                {% endfor %}
         </div>
 
-        <div class="col-7 bottom">
-        <form method="post">
+        <div id="text_input" class="col-7 bottom">
+        <form id="form" method="post">
             {% csrf_token %}
             <div class="input-group">
-                <input class="form-control" name="username" type="text" placeholder="Message, quack">
-                <input class="btn btn-warning" type="submit" value="Send">
+                <input id="message" class="form-control" name="username" type="text" placeholder="Message, quack">
+                <button id="sumbit" name="{{ user }}" class="btn btn-warning" value="Send">Send</button>
             </div>
         </form>
     </div>

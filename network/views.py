@@ -1,9 +1,12 @@
+import json
+
 from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Chat, Message
 
@@ -109,19 +112,22 @@ def search(request):
     else:
         return HttpResponseRedirect(reverse('index'))
 
+
 def chat(request, user):
-    # Get chat, where both users are in
+    print(f"Receiver {user}")
+    receiver = User.objects.filter(username=user)
+    print(receiver)
+    sender = User.objects.get(username=request.user)
     chat = Chat.objects.filter(participants__in=[
         User.objects.get(username=user),
         User.objects.get(username=request.user)
-        ])[0]
-    
-    print(chat)
-    # Get all messages from chat and devide them into pages, 15 messages in each
-    messages = Message.objects.filter(chat=chat)
-    p = Paginator(messages, 15)
-    print(p.page(1))
+    ])[0]
+
+    messages = Message.objects.filter(chat=chat)    
+
     return render(request, "network/chat.html", {
         "chats": get_user_chats(request.user),
         "chat_with": user, 
+        "user": request.user,
+        "messages": reversed(messages)
     })

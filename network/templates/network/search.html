@@ -3,17 +3,21 @@
 {% load static %}
 
 {% block body %}
-<div class="col-12">
-    <ul class="list-group">
-        {% for chat in found_chats %}
-        <a href="#" class="side-list-item">
-            <li class="list-group-item">{{ chat }}</li>
-        </a>
-        {% empty %}
-        <div class="text-center">
-            <p>No users found :(</p>
+    {% if found_chats %}
+    <div class="col-12">
+        <ul class="list-group">
+            {% for chat in found_chats %}
+            <a href="#" class="side-list-item">
+                <li class="list-group-item">{{ chat }}</li>
+            </a>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <div class="col-12 empty_space">
+        <div class="center">
+            <h4>No users found, quack :(</h4>
         </div>
-        {% endfor %}
-    </ul>
-</div>
+    </div>
+    {% endif %}
 {% endblock body %}
