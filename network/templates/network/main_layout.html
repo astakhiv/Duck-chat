@@ -34,8 +34,9 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="col-12">
-                    <a href="{% url 'logout' %}" class="btn btn-danger bottom">Logout</a>
+                <div class="col-12 d-flex bottom">
+                    <div><p>{{ user }}</p></div>
+                    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
                 </div>
             </div>
                 <div class="col-8">

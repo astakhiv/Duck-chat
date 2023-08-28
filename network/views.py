@@ -67,12 +67,15 @@ def register(request):
 
 def get_user_chats(user):
     # Defining chats to send to the template
+        user = User.objects.get(username=user)
         chats = []
         for i in Chat.objects.all():
             cur_partic = i.participants.all()
-            if user in cur_partic:
+            if cur_partic.contains(user):
                 user = cur_partic[0 if cur_partic[0] != user else 1]
                 chats += [user.username]
+                print(i.participants.all())
+        print(chats)
         return chats
 
 def index(request):
@@ -114,20 +117,30 @@ def search(request):
 
 
 def chat(request, user):
-    print(f"Receiver {user}")
-    receiver = User.objects.filter(username=user)
-    print(receiver)
+    receiver = User.objects.get(username=user)
     sender = User.objects.get(username=request.user)
-    chat = Chat.objects.filter(participants__in=[
-        User.objects.get(username=user),
-        User.objects.get(username=request.user)
-    ])[0]
+    chats = Chat.objects.all()
+    chat = None
 
-    messages = Message.objects.filter(chat=chat)    
+    for i in chats:
+        if receiver in i.participants.all() and sender in i.participants.all():
+            chat = i
+            break
+
+    messages = None
+
+    if not chat:
+        new_chat = Chat.objects.create()
+        new_chat.participants.add(receiver)
+        new_chat.participants.add(sender)
+        new_chat.save()
+    else:
+        messages = Message.objects.filter(chat=chat) 
+        print(messages)   
 
     return render(request, "network/chat.html", {
         "chats": get_user_chats(request.user),
         "chat_with": user, 
         "user": request.user,
-        "messages": reversed(messages)
+        "messages": reversed(messages) if messages else None
     })

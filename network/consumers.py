@@ -32,8 +32,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         sender = User.objects.get(username=message_sender)
         receiver = User.objects.get(username=message_receiver)
-        chat = Chat.objects.filter(participants__in=[sender, receiver])[0]
+        chats = Chat.objects.all()
+        chat = None
 
+        for i in chats:
+            if receiver in i.participants.all() and sender in i.participants.all():
+                chat = i
+                break
+            
         new_message = Message(sender=sender, message=message, chat=chat)
 
         new_message.save()
@@ -43,6 +49,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "type": "sendMessage",
                 "message": message,
                 "username": message_sender,
+                "to": message_receiver,
                 "added to base": "success",
             }
         )
@@ -50,8 +57,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
     async def sendMessage(self, event):
         message = event["message"]
         username = event["username"]
+        to = event["to"]
         await self.send(text_data= json.dumps({
             "message":message, 
-            "username": username
+            "username": username,
+            "to": to,
             })
         )

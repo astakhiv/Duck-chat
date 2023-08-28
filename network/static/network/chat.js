@@ -12,11 +12,14 @@ socket.onmessage = function(event) {
   }
   data = JSON.parse(event.data);
   console.log("Received message:", data);
-  document.querySelector("#messages_block").innerHTML = `
-  <div>
-    <h4>${data.username}</h4>
-    <p>${data.message}</p>
-  </div>` + document.querySelector("#messages_block").innerHTML;
+  if (document.querySelector("#sumbit").name == data.to ||
+  document.querySelector("#sumbit").name == data.username) {
+    document.querySelector("#messages_block").innerHTML = `
+    <div>
+      <h4>${data.username}</h4>
+      <p>${data.message}</p>
+    </div>` + document.querySelector("#messages_block").innerHTML;
+  }
 };
 
 socket.onclose = function(event) {
