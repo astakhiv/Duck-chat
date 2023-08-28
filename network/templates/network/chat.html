@@ -1,0 +1,25 @@
+{% extends "network/main_layout.html" %}
+
+{% load static %}
+
+{% block body %}
+    <div class="col-12 h-100">
+        <div class="col-12 heading">
+            <h2>{{ chat_with }}</h2>
+        </div>
+        <div class="col-12">
+
+        </div>
+
+        <div class="col-7 bottom">
+        <form method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <input class="form-control" name="username" type="text" placeholder="Message, quack">
+                <input class="btn btn-warning" type="submit" value="Send">
+            </div>
+        </form>
+    </div>
+    </div>
+
+{% endblock body %}

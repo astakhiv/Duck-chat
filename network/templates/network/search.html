@@ -1,0 +1,19 @@
+{% extends "network/main_layout.html" %}
+
+{% load static %}
+
+{% block body %}
+<div class="col-12">
+    <ul class="list-group">
+        {% for chat in found_chats %}
+        <a href="#" class="side-list-item">
+            <li class="list-group-item">{{ chat }}</li>
+        </a>
+        {% empty %}
+        <div class="text-center">
+            <p>No users found :(</p>
+        </div>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock body %}
