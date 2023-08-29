@@ -1,32 +1,44 @@
-const socket = new WebSocket("ws://" + window.location.host + "/");
-
-socket.onopen = function(event) {
-  console.log("WebSocket connection opened");
-};
-
-socket.onmessage = function(event) {
-  const invis = document.getElementById("no_messages")
-  console.log(invis);
-  if (invis){
-    invis.remove();
-  }
-  data = JSON.parse(event.data);
-  console.log("Received message:", data);
-  if (document.querySelector("#sumbit").name == data.to ||
-  document.querySelector("#sumbit").name == data.username) {
-    document.querySelector("#messages_block").innerHTML = `
-    <div>
-      <h4>${data.username}</h4>
-      <p>${data.message}</p>
-    </div>` + document.querySelector("#messages_block").innerHTML;
-  }
-};
-
-socket.onclose = function(event) {
-  console.log("WebSocket connection closed");
-};
+let socket = null;
 
 document.addEventListener("DOMContentLoaded", () => { 
+  const users = [
+    document.querySelector("#sumbit").name,
+    document.querySelector("#to").innerHTML
+  ];
+  users.sort();
+  
+  const roomname = `${users[0]}_${users[1]}`;
+
+  socket = new WebSocket(
+    "ws://" 
+    + window.location.host 
+    + "/ws/chat/"
+    + roomname
+    + '/');
+  
+  socket.onopen = function(event) {
+    console.log(`WebSocket connection opened on: ${roomname}`);
+  };
+  
+  socket.onmessage = function(event) {
+    const invis = document.getElementById("no_messages")
+    if (invis){
+      invis.remove();
+    }
+
+    data = JSON.parse(event.data);
+    console.log(data);
+    document.querySelector("#messages_block").innerHTML = `
+    <div>
+      <h4>${data.sender}</h4>
+      <p>${data.message}</p>
+    </div>` 
+    + document.querySelector("#messages_block").innerHTML;
+  };
+  
+  socket.onclose = function(event) {
+    console.log("WebSocket connection closed");
+  };
   const form = document.getElementById("form");
   form.addEventListener('submit', (event) => {
     event.preventDefault();

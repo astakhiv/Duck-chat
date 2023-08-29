@@ -72,10 +72,8 @@ def get_user_chats(user):
         for i in Chat.objects.all():
             cur_partic = i.participants.all()
             if cur_partic.contains(user):
-                user = cur_partic[0 if cur_partic[0] != user else 1]
-                chats += [user.username]
-                print(i.participants.all())
-        print(chats)
+                receiver = cur_partic[0 if cur_partic[0] != user else 1]
+                chats += [receiver.username]
         return chats
 
 def index(request):
@@ -135,8 +133,7 @@ def chat(request, user):
         new_chat.participants.add(sender)
         new_chat.save()
     else:
-        messages = Message.objects.filter(chat=chat) 
-        print(messages)   
+        messages = Message.objects.filter(chat=chat)
 
     return render(request, "network/chat.html", {
         "chats": get_user_chats(request.user),
