@@ -1,16 +1,10 @@
-import json
-
 from django.contrib.auth import authenticate, login, logout
-from django.core.paginator import Paginator
 from django.db import IntegrityError
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.decorators.csrf import csrf_exempt
 
 from .models import User, Chat, Message
-
-
 
 
 def login_view(request):
@@ -75,6 +69,7 @@ def get_user_chats(user):
                 receiver = cur_partic[0 if cur_partic[0] != user else 1]
                 chats += [receiver.username]
         return chats
+
 
 def index(request):
     if request.user.is_authenticated:
@@ -144,6 +139,7 @@ def chat(request, user):
         "messages": reversed(messages) if messages else None,
         "dark": User.objects.get(username=request.user).dark,
     })
+
 
 def dark_mode(request):
     if request.method != 'POST':
