@@ -7,30 +7,30 @@
 {% endblock head %}
 
 {% block body %}
-    <div class="col-12 h-100">
-        <div id="heading" class="col-12 heading">
-            <h2 id="to">{{ chat_with }}</h2>
+    <div class="col-12 section">
+        <div id="heading" class="col-12 h-10 row heading">
+            <h2 id="to" class="vertical-center text-color">{{ chat_with }}</h2>
         </div>
-        <div id="messages_block" class="col-12 messages">
+        <div id="messages_block" class="col-12 h-85 scroll messages">
             
                 {% for message in messages %}
-                    <div>
+                    <div class="message">
                         <h4>{{ message.sender }}</h4>
                         <p>{{ message.message }}</p>
                     </div>
                 {% empty %}
-                    <div id="no_messages" class="center">
+                    <div id="no_messages" class="center-message">
                         <h4>Start your conversation now, quack!</h4>
                     </div>
                 {% endfor %}
         </div>
 
-        <div id="text_input" class="col-7 bottom">
+        <div id="text_input" class="col-12 h-5 w-100 side-list-item">
         <form id="form" method="post">
             {% csrf_token %}
             <div class="input-group">
-                <input id="message" class="form-control" name="username" type="text" placeholder="Message, quack">
-                <button id="sumbit" name="{{ user }}" class="btn btn-warning" value="Send">Send</button>
+                <input id="message" class="form-control message-box" name="username" type="text" placeholder="Message, quack">
+                <button id="sumbit" name="{{ user }}" class="btn btn-color" value="Send">Send</button>
             </div>
         </form>
     </div>

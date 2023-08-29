@@ -83,6 +83,7 @@ def index(request):
 
         return render(request, "network/index.html", {
             "chats": chats,
+            "dark": User.objects.get(username=request.user).dark,
         })
     
     else:
@@ -108,7 +109,8 @@ def search(request):
 
         return render(request, 'network/search.html', {
             "found_chats": chats,
-            "chats": get_user_chats(request.user)
+            "chats": get_user_chats(request.user),
+            "dark": User.objects.get(username=request.user).dark,
         })
     else:
         return HttpResponseRedirect(reverse('index'))
@@ -139,5 +141,20 @@ def chat(request, user):
         "chats": get_user_chats(request.user),
         "chat_with": user, 
         "user": request.user,
-        "messages": reversed(messages) if messages else None
+        "messages": reversed(messages) if messages else None,
+        "dark": User.objects.get(username=request.user).dark,
     })
+
+def dark_mode(request):
+    if request.method != 'POST':
+        return HttpResponseRedirect(reverse('index'))
+    else:
+        mode = request.POST.get("dark-toggle")
+        cur_user =  User.objects.get(username=request.user)
+        if mode:
+            cur_user.dark = True
+        else:
+            cur_user.dark = False
+
+        cur_user.save()
+        return HttpResponseRedirect(reverse('index'))

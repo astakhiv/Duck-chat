@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     data = JSON.parse(event.data);
     console.log(data);
     document.querySelector("#messages_block").innerHTML = `
-    <div>
+    <div class="message">
       <h4>${data.sender}</h4>
       <p>${data.message}</p>
     </div>` 

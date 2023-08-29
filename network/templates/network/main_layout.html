@@ -7,25 +7,30 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         {% block head %}
         {% endblock head %}
-        <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+        
+        {% if dark %}
+            <link rel="stylesheet" href="{% static 'network/dark.css' %}">
+        {% else %}
+            <link rel="stylesheet" href="{% static 'network/light.css' %}">
+        {% endif %}
     </head>
     <body>
         <div class="col-12 d-flex">
-            <div class="col-4 h-100 side-bar">
-                <div class="col-12">
-                    <form action="{% url 'search' %}" method="post">
+            <div class="col-4 side-bar section">
+                <div class="col-12 h-10">
+                    <form class="vertical-center" action="{% url 'search' %}" method="post">
                         {% csrf_token %}
                         <div class="input-group">
-                            <input class="form-control" name="username" type="text" placeholder="Enter username">
-                            <input class="btn btn-warning" type="submit" value="Search">
+                            <input class="form-control message-box" name="username" type="text" placeholder="Enter username">
+                            <input class="btn btn-color" type="submit" value="Search">
                         </div>
                     </form>
                 </div>
-                <div class="col-12">
+                <div class="col-12 scroll h-85">
                     <ul class="list-group">
                         {% for chat in chats %}
                         <a href="{% url 'chat' chat %}" class="side-list-item">
-                            <li class="list-group-item">{{ chat }}</li>
+                            <li class="list-group-item chat-item">{{ chat }}</li>
                         </a>
                         {% empty %}
                         <div class="text-center">
@@ -34,9 +39,14 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <div class="col-12 d-flex bottom">
-                    <div><p>{{ user }}</p></div>
-                    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+                <div class="col-12 h-5 text-center align-middle">
+                    <form class="form-check form-switch" id="dark-mode-form" action="{% url 'dark-mode' %}" method="post">
+                        {% csrf_token %}
+                        <input onchange="this.form.submit()" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="dark-toggle" {% if dark %} checked {% endif %}>
+                        <label class="text-color" for="flexSwitchCheckDefault">Dark</label>
+                        <span class="text-color">{{ user }}</span>
+                        <a href="{% url 'logout' %}" class="btn btn-color">Logout</a>
+                    </form>
                 </div>
             </div>
                 <div class="col-8">

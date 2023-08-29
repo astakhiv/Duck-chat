@@ -1,0 +1,128 @@
+
+html,
+body{
+    height: 99vh;
+    background-color: #2f2f2f;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    color: white;
+}
+
+.side-list-item {
+    margin: 5px 0px;
+}
+
+.h-85 {
+    height: 85%;
+}
+
+.h-80 {
+    height: 80%;
+}
+
+.h-10 {
+    height: 10%;
+}
+
+.h-5 {
+    height: 5%;
+}
+
+.heading {
+    background-color: #3f3f3f;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    border-radius: 0.25rem;
+    margin: 5px 0px;
+    padding: 10px 20px;
+
+}
+
+.message{
+    border: 1px solid #7847ff;
+    background-color: #7847ff;
+    color: white;
+    overflow-wrap: break-word;
+    width: 100%;
+    border-radius: 0.25rem;
+    padding: 5px;
+    margin: 5px 0px;
+}
+
+.scroll {
+    position: relative;
+    overflow-y: scroll;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.empty_space {
+    position: relative;
+    height: 100vh;
+}
+
+.message-box {
+    background-color: #3f3f3f;
+    color: #3f3f3f;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.message-box:focus {
+    background-color: #3f3f3f;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+
+.center-message {
+    background-color: #7847ff;
+    color: white;
+    text-align: center;
+    padding: 10px 35px 1px 35px;
+    border-radius: 500px;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.section {
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    height: 99vh;
+    margin: 5px 0px;
+    border-radius: 0.25rem;
+    padding: 10px;
+}
+
+
+.btn-color {
+    color: white;
+    background-color: #750dfd;
+    border-color: #750dfd;
+}
+
+.text-color {
+    color: white;
+}
+
+.chat-item {
+    background-color: #3f3f3f;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}

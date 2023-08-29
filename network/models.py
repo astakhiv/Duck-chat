@@ -3,6 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
+    dark = models.BooleanField(verbose_name="is_dark_theme", default=True)
     def __str__(self) -> str:
         return self.username
 
